@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Calculator SKF</string>
+    <string name="about">About app</string>
+    <string name="howCreateSKF">How to create SKF</string>
+    <string name="howCreateCrockroft">How create Crockroft</string>
+    <string name="howCreateQTc">How create QTc</string>
+</resources>

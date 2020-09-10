@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ru.anatomica.calculator.MainActivity">
+    <item
+        android:id="@+id/btn_about"
+        android:orderInCategory="100"
+        android:title="@string/about"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/btn_howCreateSKF"
+        android:orderInCategory="101"
+        android:title="@string/howCreateSKF" />
+    <item
+        android:id="@+id/btn_howCreateCrockroft"
+        android:orderInCategory="102"
+        android:title="@string/howCreateCrockroft" />
+    <item
+        android:id="@+id/btn_howCreateQTc"
+        android:orderInCategory="103"
+        android:title="@string/howCreateQTc" />
+</menu>

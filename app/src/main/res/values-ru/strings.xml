@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Калькулятор СКФ</string>
+    <string name="about">О приложении</string>
+    <string name="howCreateSKF">Как подсчитать СКФ (CKD-EPI)</string>
+    <string name="howCreateCrockroft">Как подсчитать СКФ (Crockroft)</string>
+    <string name="howCreateQTc">Как подсчитать QTc</string>
+</resources>
