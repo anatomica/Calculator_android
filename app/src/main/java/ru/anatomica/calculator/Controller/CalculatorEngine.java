@@ -70,9 +70,7 @@ public class CalculatorEngine {
             }
         }
 
-        mainActivity.displayField.setTextSize(90);
-        if (mainActivity.displayField.getText().toString().length() > 7) mainActivity.displayField.setTextSize(60);
-        if (mainActivity.displayField.getText().toString().length() > 11) mainActivity.displayField.setTextSize(40);
+        changeSize();
 
         // Выбор арифметического действия
         if (button == mainActivity.buttons.get(4)) {
@@ -82,7 +80,7 @@ public class CalculatorEngine {
             kreatinin = 0;
             displayValue = 0;
             mainActivity.displayField.setText("0");
-            mainActivity.displayField.setTextSize(90);
+            changeSize();
             mainActivity.buttons.get(1).setText("Подсчет \nСКФ");
             mainActivity.buttons.get(1).setTextSize(14);
             mainActivity.buttons.get(2).setText("Подсчет \nQT");
@@ -178,9 +176,11 @@ public class CalculatorEngine {
             if (action == '+') {
                 result = result + displayValue;
                 mainActivity.displayField.setText("" + withFiveDigits(stringWithoutZero(result)));
+                changeSize();
             } else if (action == '-') {
                 result = result - displayValue;
                 mainActivity.displayField.setText("" + withFiveDigits(stringWithoutZero(result)));
+                changeSize();
             } else if (action == '/') {
                 if (displayValue == 0) {
                     mainActivity.displayField.setTextSize(30);
@@ -188,16 +188,19 @@ public class CalculatorEngine {
                 } else {
                     result = result / displayValue;
                     mainActivity.displayField.setText("" + withFiveDigits(stringWithoutZero(result)));
+                    changeSize();
                 }
             } else if (action == '*') {
                 result = result * displayValue;
                 mainActivity.displayField.setText("" + withFiveDigits(stringWithoutZero(result)));
+                changeSize();
             } else if (action == '^') {
                 double oldResult = result;
                 for (int i = 1; i < displayValue; i++) {
                     result = result * oldResult;
                 }
                 mainActivity.displayField.setText("" + withFiveDigits(stringWithoutZero(result)));
+                changeSize();
             } else if (action == 'K' && displayValue != 0) {
                 resultSKF("");
             } else if (action == 'W' && displayValue != 0) {
@@ -318,6 +321,23 @@ public class CalculatorEngine {
             return stringAroundResult;
         }
         return result;
+    }
+
+    private void changeSize() {
+        mainActivity.displayField.setTextSize(90);
+        mainActivity.displayField.setPadding(0, 0, 20, 70);
+        if (mainActivity.displayField.getText().toString().length() > 7) {
+            mainActivity.displayField.setTextSize(60);
+            mainActivity.displayField.setPadding(0, 0, 20, 120);
+        }
+        if (mainActivity.displayField.getText().toString().length() > 10) {
+            mainActivity.displayField.setTextSize(40);
+            mainActivity.displayField.setPadding(0, 0, 20, 160);
+        }
+        if (mainActivity.displayField.getText().toString().length() > 16) {
+            mainActivity.displayField.setTextSize(25);
+            mainActivity.displayField.setPadding(0, 0, 20, 185);
+        }
     }
 
 }

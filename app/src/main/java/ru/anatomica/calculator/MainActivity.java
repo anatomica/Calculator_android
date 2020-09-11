@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.gridlayout.widget.GridLayout;
+
+import android.os.StrictMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -32,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StrictMode.ThreadPolicy threadPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.VmPolicy vmPolicy = new StrictMode.VmPolicy.Builder().build();
+        StrictMode.setThreadPolicy(threadPolicy);
+        StrictMode.setVmPolicy(vmPolicy);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     public void createDisplay() {
         displayField.setText("0");
         displayField.setTextSize(90);
+        displayField.setPadding(0, 0, 20, 70);
         displayField.setTextColor(Color.BLACK);
         displayField.setBackgroundColor(Color.LTGRAY);
     }
@@ -96,12 +103,12 @@ public class MainActivity extends AppCompatActivity {
             buttons.get(i).setTextColor(Color.YELLOW);
             if (i <= 6) {
                 buttons.get(i).setTextSize(14);
-                buttons.get(i).setTextColor(Color.BLACK);
+                buttons.get(i).setTextColor(Color.LTGRAY);
             }
             if (i == 7 || i == 11 || i == 15 || i == 19 || i == 20 || i == 22 || i == 23) {
                 buttons.get(i).setTextSize(25);
                 buttons.get(20).setTextSize(20);
-                buttons.get(i).setTextColor(Color.BLACK);
+                buttons.get(i).setTextColor(Color.LTGRAY);
             }
 
             GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams(
