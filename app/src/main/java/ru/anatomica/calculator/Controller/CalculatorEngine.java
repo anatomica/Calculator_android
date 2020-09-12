@@ -27,9 +27,10 @@ public class CalculatorEngine {
     @SuppressLint("SetTextI18n")
     public void workWithButtons(String buttonLabel, Button button) {
 
-        if (mainActivity.displayField.getText().toString().equals("На ноль делить нельзя!")) {
+        if (mainActivity.displayField.getText().toString().equals("На ноль делить нельзя!") ||
+                mainActivity.displayField.getText().toString().equals("Неверный расчет! Повторите!")) {
             mainActivity.displayField.setText("");
-            mainActivity.displayField.setTextSize(90);
+            changeSize();
         }
 
         String displayFieldText = mainActivity.displayField.getText().toString();
@@ -207,7 +208,8 @@ public class CalculatorEngine {
                 resultCockroft();
             } else if (action == 'I') {
                 result = result / ((displayValue /100) * (displayValue / 100));
-                BigDecimal aroundIMT = new BigDecimal(result).setScale(1, RoundingMode.HALF_EVEN);
+                BigDecimal aroundIMT = BigDecimal.valueOf(1);
+                if (result >= 0.0) aroundIMT = new BigDecimal(result).setScale(1, RoundingMode.HALF_EVEN);
                 mainActivity.displayField.setText("" + aroundIMT);
             } else if (action == 'Q') {
                 resultQTc();
@@ -238,7 +240,11 @@ public class CalculatorEngine {
             skf = Math.pow ((mg/0.9), -1.209);
             GFR = 141 * skf * newAge;
         }
-        BigDecimal aroundGFR = new BigDecimal(GFR).setScale(0, RoundingMode.HALF_EVEN);
+
+        BigDecimal aroundGFR;
+        if (GFR >= 0.0) aroundGFR = new BigDecimal(GFR).setScale(0, RoundingMode.HALF_EVEN);
+        else return "Неверный расчет! \nПожалуйята, посмотрите инструкцию \nи повторите вычисление!";
+
         mainActivity.buttons.get(1).setText("Подсчет \nСКФ");
         if (from.equals("fromSKF")) mainActivity.displayField.setText("" + aroundGFR);
 
@@ -268,7 +274,11 @@ public class CalculatorEngine {
         double GFR = 1;
         if (sex == 'M') GFR = men * ((140 - age) * weight) / kreatinin;
         if (sex == 'W') GFR = women * ((140 - age) * weight) / kreatinin;
-        BigDecimal aroundGFR = new BigDecimal(GFR).setScale(0, RoundingMode.HALF_EVEN);
+
+        BigDecimal aroundGFR;
+        if (GFR >= 0.0) aroundGFR = new BigDecimal(GFR).setScale(0, RoundingMode.HALF_EVEN);
+        else return "Неверный расчет! \nПожалуйята, посмотрите инструкцию \nи повторите вычисление!";
+
         mainActivity.buttons.get(1).setText("Подсчет \nСКФ");
         mainActivity.displayField.setText("" + aroundGFR);
         SKF = 0;
@@ -292,7 +302,11 @@ public class CalculatorEngine {
             double RR = 60 / result;
             double cons = 0.154;
             double QTc = displayValue + (cons * (1 - RR)) * 1000;
-            BigDecimal aroundQTc = new BigDecimal(QTc).setScale(0, RoundingMode.HALF_EVEN);
+
+            BigDecimal aroundQTc;
+            if (QTc >= 0.0) aroundQTc = new BigDecimal(QTc).setScale(0, RoundingMode.HALF_EVEN);
+            else return "Неверный расчет! \nПожалуйята, посмотрите инструкцию \nи повторите вычисление!";
+
             mainActivity.displayField.setText("" + aroundQTc);
             QT = 0;
             return ("QTc (по формуле Framingham) = " + aroundQTc + " мсек\n\nРеферентные значения корригированного QT: \n320-430 для мужчин и 320-450 для женщин");
@@ -325,19 +339,10 @@ public class CalculatorEngine {
 
     private void changeSize() {
         mainActivity.displayField.setTextSize(90);
-        mainActivity.displayField.setPadding(0, 0, 20, 70);
-        if (mainActivity.displayField.getText().toString().length() > 7) {
-            mainActivity.displayField.setTextSize(60);
-            mainActivity.displayField.setPadding(0, 0, 20, 120);
-        }
-        if (mainActivity.displayField.getText().toString().length() > 10) {
-            mainActivity.displayField.setTextSize(40);
-            mainActivity.displayField.setPadding(0, 0, 20, 160);
-        }
-        if (mainActivity.displayField.getText().toString().length() > 16) {
-            mainActivity.displayField.setTextSize(25);
-            mainActivity.displayField.setPadding(0, 0, 20, 185);
-        }
+        mainActivity.displayField.setPadding(0, 0, 20, 0);
+        if (mainActivity.displayField.getText().toString().length() > 7) mainActivity.displayField.setTextSize(60);
+        if (mainActivity.displayField.getText().toString().length() > 10) mainActivity.displayField.setTextSize(40);
+        if (mainActivity.displayField.getText().toString().length() > 16) mainActivity.displayField.setTextSize(25);
     }
 
 }

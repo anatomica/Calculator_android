@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     public void createDisplay() {
         displayField.setText("0");
         displayField.setTextSize(90);
-        displayField.setPadding(0, 0, 20, 70);
+        displayField.setPadding(0, 0, 20, 0);
         displayField.setTextColor(Color.BLACK);
         displayField.setBackgroundColor(Color.LTGRAY);
     }
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void about() {
-        showMessage("Версия калькулятора 1.0 \nMaxim Fomin © 2020 \nВсе права защищены.", "О приложении:");
+        showMessage("Версия калькулятора 1.2 \nMaxim Fomin © 2020 \nВсе права защищены.", "О приложении:");
     }
 
     public void showMessage(String message) {
