@@ -8,19 +8,13 @@ import java.math.RoundingMode;
 
 public class CalculatorEngine {
 
+    private ArithmeticEngine arithmeticEngine;
     private MainActivity mainActivity;
-    private char action; // Арифметический метод
-    private char sex = 'W';
-    private double result = 0; // Результат выражения или значения
-    private double age;
-    private double kreatinin;
-    private double displayValue = 0; // Значение на экране
-    private int mark = 0; // Метка
-    private String value;
-    private int SKF = 0;
-    private int QT = 0;
+
+    protected int mark = 0; // Метка
 
     public CalculatorEngine(MainActivity mainActivity) {
+        this.arithmeticEngine = new ArithmeticEngine(mainActivity, this);
         this.mainActivity = mainActivity;
     }
 
@@ -36,7 +30,7 @@ public class CalculatorEngine {
         String displayFieldText = mainActivity.displayField.getText().toString();
         if (!displayFieldText.equals("") && !displayFieldText.equals(".") &&
                 !displayFieldText.equals("-") && !displayFieldText.equals("-."))
-            displayValue = Double.parseDouble(displayFieldText);
+            arithmeticEngine.displayValue = Double.parseDouble(displayFieldText);
 
         if (displayFieldText.equals("-") || displayFieldText.equals("-.")) {
             mainActivity.displayField.setText("0");
@@ -79,321 +73,16 @@ public class CalculatorEngine {
         }
 
         changeSize();
-
-        // Выбор арифметического действия
-        if (displayFieldText.equals("-0.") & !b) {
-            mainActivity.displayField.setText("0");
-            return;
-        }
-        if (button == mainActivity.buttons.get(4)) {
-            QT = 0;
-            SKF = 0;
-            age = 0;
-            result = 0;
-            kreatinin = 0;
-            displayValue = 0;
-            mainActivity.displayField.setText("0");
-            changeSize();
-            mainActivity.buttons.get(1).setText("Подсчет \nСКФ");
-            mainActivity.buttons.get(1).setTextSize(14);
-            mainActivity.buttons.get(2).setText("Подсчет \nQT");
-            mainActivity.buttons.get(2).setTextSize(14);
-        }
-        else if (button == mainActivity.buttons.get(5)) {
-            String str = mainActivity.displayField.getText().toString();
-            if (str.length() > 0) {
-                str = str.substring(0, str.length() - 1);
-                mainActivity.displayField.setText(str);
-            }
-        } else if (button == mainActivity.buttons.get(19)) {
-            action = '+';
-            result = displayValue;
-            mark = 1;
-        } else if (button == mainActivity.buttons.get(15)) {
-            if (displayValue == 0 && mainActivity.displayField.getText().equals(""))
-                mainActivity.displayField.setText(buttonLabel + "0");
-            else {
-                action = '-';
-                result = displayValue;
-                mark = 1;
-            }
-        } else if (button == mainActivity.buttons.get(7)) {
-            action = '/';
-            result = displayValue;
-            mark = 1;
-        } else if (button == mainActivity.buttons.get(11)) {
-            action = '*';
-            result = displayValue;
-            mark = 1;
-        } else if (button == mainActivity.buttons.get(22)) {
-            if (displayFieldText.indexOf(".") > 0) {
-                mainActivity.displayField.setText(displayFieldText + "");
-            } else {
-                mainActivity.displayField.setText(displayFieldText + buttonLabel);
-            }
-        } else if (button == mainActivity.buttons.get(6)) {
-            action = '^';
-            result = displayValue;
-            mark = 1;
-        } else if (button == mainActivity.buttons.get(0)) {
-            sex = 'W';
-            if (button.getText().equals("Жен")) {
-                button.setText("Муж");
-                sex = 'M';
-            } else {
-                button.setText("Жен");
-                sex = 'W';
-            }
-        } else if (button == mainActivity.buttons.get(1)) {
-            if (button.getText().equals("Подсчет \nСКФ")) {
-                button.setText("Введите \nкреатинин \nи нажмите");
-                button.setTextSize(11);
-                action = 'K';
-                age = displayValue;
-                mark = 1;
-                SKF = 1;
-            }
-            else if (button.getText().equals("Введите \nкреатинин \nи нажмите")) {
-                button.setText("Введите \nвес");
-                button.setTextSize(14);
-                action = 'W';
-                kreatinin = displayValue;
-                mark = 1;
-                SKF = 1;
-            }
-        } else if (button == mainActivity.buttons.get(2)) {
-            if (button.getText().equals("Подсчет \nQT")) {
-                button.setText("Введите \nQT в мсек");
-                button.setTextSize(12);
-                action = 'Q';
-                result = displayValue;
-                mark = 1;
-                QT = 1;
-            }
-        } else if ((SKF == 1 || QT == 1) && button == mainActivity.buttons.get(3) && displayValue != 0) {
-            if (SKF == 1 && action == 'K') mainActivity.showMessage(resultSKF("fromSKF"));
-            if (SKF == 1 && action == 'W') mainActivity.showMessage(resultCockroft());
-            if (QT == 1 && action == 'Q') mainActivity.showMessage(resultQTc());
-        } else if (button == mainActivity.buttons.get(20)) {
-            StringBuilder str = new StringBuilder(displayFieldText);
-            if (str.length() > 0 && str.charAt(0) != '-') {
-                str.insert(0, "-");
-                mainActivity.displayField.setText(String.valueOf(str));
-            } else if (str.length() > 0 && str.charAt(0) == '-') {
-                str.deleteCharAt(0);
-                mainActivity.displayField.setText(String.valueOf(str));
-            }
-        } else if (button == mainActivity.buttons.get(23)) {
-
-            //  Арифметическое действие
-            if (action == '+') {
-                result = result + displayValue;
-                mainActivity.displayField.setText("" + withFiveDigits(stringWithoutZero(result)));
-                changeSize();
-            } else if (action == '-') {
-                result = result - displayValue;
-                mainActivity.displayField.setText("" + withFiveDigits(stringWithoutZero(result)));
-                changeSize();
-            } else if (action == '/') {
-                if (displayValue == 0) {
-                    mainActivity.displayField.setTextSize(30);
-                    mainActivity.displayField.setText("На ноль делить нельзя!");
-                } else {
-                    result = result / displayValue;
-                    mainActivity.displayField.setText("" + withFiveDigits(stringWithoutZero(result)));
-                    changeSize();
-                }
-            } else if (action == '*') {
-                result = result * displayValue;
-                mainActivity.displayField.setText("" + withFiveDigits(stringWithoutZero(result)));
-                changeSize();
-            } else if (action == '^') {
-                double oldResult = result;
-                for (int i = 1; i < displayValue; i++) {
-                    result = result * oldResult;
-                }
-                mainActivity.displayField.setText("" + withFiveDigits(stringWithoutZero(result)));
-                changeSize();
-            } else if (action == 'K' && SKF == 1 && displayValue != 0) {
-                resultSKF("");
-            } else if (action == 'W' && SKF == 1 && displayValue != 0) {
-                resultCockroft();
-            } else if (action == 'Q' && QT == 1 && displayValue != 0) {
-                resultQTc();
-            } else if (action == 'I') {
-                result = result / ((displayValue / 100) * (displayValue / 100));
-                BigDecimal aroundIMT;
-                if (result > 0.0) {
-                    aroundIMT = new BigDecimal(result).setScale(1, RoundingMode.HALF_EVEN);
-                    mainActivity.displayField.setText("" + aroundIMT);
-                }
-                else mainActivity.showMessage("Вы не верно ввели данные!");
-            }
-        }
+        arithmeticEngine.algorithmEngine(displayFieldText, buttonLabel, button, b);
     }
 
-    @SuppressLint("SetTextI18n")
-    private String resultSKF(String from) {
-        double newAge = Math.pow (0.993, age);
-        if (from.equals("fromSKF")) kreatinin =  displayValue;
-        double mg = kreatinin/88.4;
-        double skf = 1;
-        double GFR = 1;
-        if (sex == 'W' && mg <= 0.7) {
-            skf = Math.pow ((mg/0.7), -0.329);
-            GFR = 144 * skf * newAge;
-        }
-        if (sex == 'W' && mg > 0.7) {
-            skf = Math.pow ((mg/0.7), -1.209);
-            GFR = 144 * skf * newAge;
-        }
-        if (sex == 'M' && mg <= 0.9) {
-            skf = Math.pow ((mg/0.9), -0.411);
-            GFR = 141 * skf * newAge;
-        }
-        if (sex == 'M' && mg > 0.9) {
-            skf = Math.pow ((mg/0.9), -1.209);
-            GFR = 141 * skf * newAge;
-        }
-
-        if (age <= 0.0) {
-            return "Неверный расчет! \nЗначение 'возраст' отрицательное! \nПожалуйста, повторите вычисление!";
-        }
-        if (mg <= 0.0) {
-            return "Неверный расчет! \nЗначение 'креатинин' отрицательное! \nПожалуйста, повторите вычисление!";
-        }
-        if (skf <= 0.0) {
-            return "Неверный расчет! \nВычисление 'СКФ' отрицательное! \nПожалуйста, повторите вычисление!";
-        }
-
-        BigDecimal aroundGFR;
-        if (Double.isNaN(GFR) || Double.isInfinite(GFR)) {
-            return "Неверный расчет! \nВы частично не указали данные!";
-        }
-        else if (GFR <= 0.0) {
-            return "Неверный расчет! \nЗначение вычисления отрицательное! \nПожалуйста, посмотрите инструкцию \nи повторите вычисление!";
-        }
-        else aroundGFR = new BigDecimal(GFR).setScale(0, RoundingMode.HALF_EVEN);
-
-        mainActivity.buttons.get(1).setText("Подсчет \nСКФ");
-        mainActivity.buttons.get(1).setTextSize(14);
-        if (from.equals("fromSKF")) mainActivity.displayField.setText("" + aroundGFR);
-
-        if (GFR > 90)
-            value = "1";
-        if (GFR< 90 && GFR >= 60)
-            value = "2";
-        if (GFR < 60 && GFR >= 45)
-            value = "3а";
-        if (GFR < 45 && GFR >= 30)
-            value = "3б";
-        if (GFR < 30 && GFR >= 15)
-            value = "4";
-        if (GFR < 15 && GFR > 0)
-            value = "5";
-
-        SKF = 0;
-        return ("СКФ (по формуле CKD-EPI): = " + aroundGFR + " мл/мин/1,73м2\n" +
-                "Градация " + value + "  (по классификации KDIGO)");
-    }
-
-    @SuppressLint("SetTextI18n")
-    private String resultCockroft() {
-        double weight = displayValue;
-        double men = 1.23;
-        double women = 1.05;
-        double GFR = 1;
-        if (sex == 'M') GFR = men * ((140 - age) * weight) / kreatinin;
-        if (sex == 'W') GFR = women * ((140 - age) * weight) / kreatinin;
-
-        if (age <= 0.0) {
-            return "Неверный расчет! \nЗначение 'возраст' отрицательное! \nПожалуйста, повторите вычисление!";
-        }
-        if (weight <= 0.0) {
-            return "Неверный расчет! \nЗначение 'вес' отрицательное! \nПожалуйста, повторите вычисление!";
-        }
-
-        BigDecimal aroundGFR;
-        if (Double.isNaN(GFR) || Double.isInfinite(GFR)) {
-            return "Неверный расчет! \nВы частично не указали данные!";
-        }
-        else if (GFR <= 0.0) {
-            return "Неверный расчет! \nЗначение вычисления отрицательное! \nПожалуйста, посмотрите инструкцию \nи повторите вычисление!";
-        }
-        else aroundGFR = new BigDecimal(GFR).setScale(0, RoundingMode.HALF_EVEN);
-
-        mainActivity.buttons.get(1).setText("Подсчет \nСКФ");
-        mainActivity.buttons.get(1).setTextSize(14);
-        mainActivity.displayField.setText("" + aroundGFR);
-        SKF = 0;
-
-        if (sex == 'M') return (resultSKF("fromCockroft") + "\n\nСКФ (по формуле Кокрофта-Голта): = " + aroundGFR + " мл/мин\n" +
-                "В норме для мужчин: 90 - 150 мл/мин");
-        else return (resultSKF("fromCockroft") + "\n\nСКФ (по формуле Кокрофта-Голта): = " + aroundGFR + " мл/мин\n" +
-                "В норме для женщин: 90 - 130 мл/мин");
-    }
-
-    @SuppressLint("SetTextI18n")
-    private String resultQTc() {
-        if (result >= 60 && result <= 100) {
-            double RR = 60 / result;
-            double QTc = displayValue / Math.sqrt(RR);
-
-            if (result <= 0.0) {
-                return "Неверный расчет! \nЗначение 'ЧСС' отрицательное! \nПожалуйста, повторите вычисление!";
-            }
-            if (displayValue <= 0.0) {
-                return "Неверный расчет! \nВычисление 'QT' отрицательное! \nПожалуйста, повторите вычисление!";
-            }
-
-            BigDecimal aroundQTc;
-            if (Double.isNaN(QTc) || Double.isInfinite(QTc)) {
-                mainActivity.showMessage("Неверный расчет! \nВы частично не указали данные!");
-                return "false";
-            }
-            else if (QTc <= 0.0) {
-                return "Неверный расчет! \nЗначение вычисления отрицательное! \nПожалуйста, посмотрите инструкцию \nи повторите вычисление!";
-            }
-            else aroundQTc = new BigDecimal(QTc).setScale(0, RoundingMode.HALF_EVEN);
-
-            mainActivity.displayField.setText("" + aroundQTc);
-            QT = 0;
-            return ("QTc (по формуле Базетта) = " + aroundQTc + " мсек\n\nРеферентные значения корригированного QT: \n320-430 для мужчин и 320-450 для женщин");
-        } else {
-            double RR = 60 / result;
-            double cons = 0.154;
-            double QTc = displayValue + (cons * (1 - RR)) * 1000;
-
-            if (result <= 0.0) {
-                return "Неверный расчет! \nЗначение 'ЧСС' отрицательное! \nПожалуйста, повторите вычисление!";
-            }
-            if (displayValue <= 0.0) {
-                return "Неверный расчет! \nВычисление 'QT' отрицательное! \nПожалуйста, повторите вычисление!";
-            }
-
-            BigDecimal aroundQTc;
-            if (Double.isNaN(QTc) || Double.isInfinite(QTc)) {
-                mainActivity.showMessage("Неверный расчет! \nВы частично не указали данные!");
-                return "false";
-            }
-            else if (QTc <= 0.0) {
-                return "Неверный расчет! \nЗначение вычисления отрицательное! \nПожалуйста, посмотрите инструкцию \nи повторите вычисление!";
-            }
-            else aroundQTc = new BigDecimal(QTc).setScale(0, RoundingMode.HALF_EVEN);
-
-            mainActivity.displayField.setText("" + aroundQTc);
-            QT = 0;
-            return ("QTc (по формуле Framingham) = " + aroundQTc + " мсек\n\nРеферентные значения корригированного QT: \n320-430 для мужчин и 320-450 для женщин");
-        }
-    }
-
-    private String stringWithoutZero(double result) {
+    public String stringWithoutZero(double result) {
         String newValue = String.valueOf(result);
         if (newValue.endsWith(".0")) newValue = newValue.substring(0, newValue.length() - 2);
         return newValue;
     }
 
-    private String withFiveDigits(String result) {
+    public String withFiveDigits(String result) {
         BigDecimal aroundResult;
         if (result.split("\\.").length > 1) {
             aroundResult = new BigDecimal(result).setScale(4, RoundingMode.HALF_EVEN);
@@ -411,7 +100,7 @@ public class CalculatorEngine {
         return result;
     }
 
-    private void changeSize() {
+    public void changeSize() {
         mainActivity.displayField.setTextSize(90);
         mainActivity.displayField.setPadding(0, 0, 20, 0);
         if (mainActivity.displayField.getText().toString().length() > 7) mainActivity.displayField.setTextSize(60);

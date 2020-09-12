@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         calculatorEngine = new CalculatorEngine(this);
         mainLayout = findViewById(R.id.activity_main);
         buttonLayout = findViewById(R.id.buttonLayout);
-        displayField = findViewById(R.id.textView);
+        displayField = findViewById(R.id.digitalView);
         displayField.setEnabled(false);
         buttonName = new ArrayList<>();
         buttons = new ArrayList<>(24);
