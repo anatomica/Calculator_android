@@ -6,9 +6,11 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.widget.TextViewCompat;
 import androidx.gridlayout.widget.GridLayout;
 
 import android.os.StrictMode;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             buttons.get(i).setTextSize(23);
             buttons.get(i).setTextColor(Color.YELLOW);
             if (i <= 6) {
-                buttons.get(i).setTextSize(14);
+                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(buttons.get(i), 2, 14, 1, TypedValue.COMPLEX_UNIT_SP);
                 buttons.get(i).setTextColor(Color.LTGRAY);
             }
             if (i == 7 || i == 11 || i == 15 || i == 19 || i == 20 || i == 22 || i == 23) {
@@ -149,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void about() {
-        showMessage("Версия калькулятора 1.2 \nMaxim Fomin © 2020 \nВсе права защищены.", "О приложении:");
+        showMessage("Версия калькулятора 1.6 \nMaxim Fomin © 2020 \nВсе права защищены.", "О приложении:");
     }
 
     public void showMessage(String message) {
