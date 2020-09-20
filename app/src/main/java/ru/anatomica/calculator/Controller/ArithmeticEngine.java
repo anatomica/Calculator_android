@@ -1,6 +1,7 @@
 package ru.anatomica.calculator.Controller;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.util.TypedValue;
 import android.widget.Button;
 
@@ -43,9 +44,11 @@ public class ArithmeticEngine {
             mainActivity.displayField.setText("0");
             calculatorEngine.changeSize();
             mainActivity.buttons.get(1).setText("Подсчет \nСКФ");
-            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(mainActivity.buttons.get(1), 2, 14, 1, TypedValue.COMPLEX_UNIT_SP);
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) mainActivity.buttons.get(1).setAutoSizeTextTypeUniformWithConfiguration(2, 14, 1, TypedValue.COMPLEX_UNIT_SP);
+            else TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(mainActivity.buttons.get(1), 2, 18, 1, TypedValue.COMPLEX_UNIT_SP);
             mainActivity.buttons.get(2).setText("Подсчет \nQT");
-            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(mainActivity.buttons.get(2), 2, 14, 1, TypedValue.COMPLEX_UNIT_SP);
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) mainActivity.buttons.get(2).setAutoSizeTextTypeUniformWithConfiguration(2, 14, 1, TypedValue.COMPLEX_UNIT_SP);
+            else TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(mainActivity.buttons.get(2), 2, 18, 1, TypedValue.COMPLEX_UNIT_SP);
         }
         else if (button == mainActivity.buttons.get(5)) {
             String str = mainActivity.displayField.getText().toString();
@@ -95,7 +98,8 @@ public class ArithmeticEngine {
         } else if (button == mainActivity.buttons.get(1)) {
             if (button.getText().equals("Подсчет \nСКФ")) {
                 button.setText("Введите \nкреатинин \nи нажмите");
-                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(button, 2, 14, 1, TypedValue.COMPLEX_UNIT_SP);
+                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) button.setAutoSizeTextTypeUniformWithConfiguration(2, 10, 1, TypedValue.COMPLEX_UNIT_SP);
+                else TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(button, 2, 18, 1, TypedValue.COMPLEX_UNIT_SP);
                 action = 'K';
                 skfEngine.age = displayValue;
                 calculatorEngine.mark = 1;
@@ -103,7 +107,8 @@ public class ArithmeticEngine {
             }
             else if (button.getText().equals("Введите \nкреатинин \nи нажмите")) {
                 button.setText("Введите \nвес");
-                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(button, 2, 14, 1, TypedValue.COMPLEX_UNIT_SP);
+                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) button.setAutoSizeTextTypeUniformWithConfiguration(2, 12, 1, TypedValue.COMPLEX_UNIT_SP);
+                else TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(button, 2, 18, 1, TypedValue.COMPLEX_UNIT_SP);
                 action = 'W';
                 skfEngine.kreatinin = displayValue;
                 calculatorEngine.mark = 1;
@@ -112,7 +117,8 @@ public class ArithmeticEngine {
         } else if (button == mainActivity.buttons.get(2)) {
             if (button.getText().equals("Подсчет \nQT")) {
                 button.setText("Введите \nQT в мсек");
-                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(button, 2, 14, 1, TypedValue.COMPLEX_UNIT_SP);
+                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) button.setAutoSizeTextTypeUniformWithConfiguration(2, 10, 1, TypedValue.COMPLEX_UNIT_SP);
+                else TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(button, 2, 18, 1, TypedValue.COMPLEX_UNIT_SP);
                 action = 'Q';
                 result = displayValue;
                 calculatorEngine.mark = 1;
