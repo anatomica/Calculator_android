@@ -105,8 +105,7 @@ public class MainActivity extends AppCompatActivity {
             buttons.get(i).setTextSize(23);
             buttons.get(i).setTextColor(Color.YELLOW);
             if (i <= 6) {
-                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) buttons.get(i).setAutoSizeTextTypeUniformWithConfiguration(2, 14, 1, TypedValue.COMPLEX_UNIT_SP);
-                else TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(buttons.get(i), 2, 18, 1, TypedValue.COMPLEX_UNIT_SP);
+                changeTextSize(i);
                 buttons.get(i).setTextColor(Color.LTGRAY);
             }
             if (i == 7 || i == 11 || i == 15 || i == 19 || i == 20 || i == 22 || i == 23) {
@@ -133,27 +132,36 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void changeTextSize(int i) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) buttons.get(i).setTextSize(12);
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) buttons.get(i).setAutoSizeTextTypeUniformWithConfiguration(2, 12, 1, TypedValue.COMPLEX_UNIT_SP);
+        else TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(buttons.get(i), 2, 16, 1, TypedValue.COMPLEX_UNIT_SP);
+    }
+
     public void howCreateSKF() {
-        showMessage("Для подсчета СКФ (по формуле CKD-EPI) вам необходимо " +
-                "сначала выбрать пол пациента и ввести его возраст; потом нажать на кнопку 'Подсчет СКФ' и " +
-                "ввести уровень креатинина в мкмоль/л. Для получения результата нажмите '= СКФ'", "Инструкция!");
+        showMessage("Для подсчета СКФ (по формуле CKD-EPI) вам необходимо в самом начале " +
+                "выбрать пол пациента (кнопка в верхнем левом углу) и ввести его возраст; потом нажать на кнопку 'Подсчет СКФ' и " +
+                "ввести уровень креатинина в мкмоль/л. Для получения результата нажмите '= СКФ'\n" +
+                "P.S. Если до этого были расчеты, то нажать 'Сброс' и выполнить выше написанное", "Инструкция!");
     }
 
     public void howCreateCrockroft() {
-        showMessage("Для подсчета СКФ (по формуле Кокрофта-Голта) вам необходимо " +
-                "сначала выбрать пол пациента и ввести его возраст; потом нажать на кнопку 'Подсчет СКФ', " +
+        showMessage("Для подсчета СКФ (по формуле Кокрофта-Голта) вам необходимо в самом начале " +
+                "выбрать пол пациента (кнопка в верхнем левом углу) и ввести его возраст; потом нажать на кнопку 'Подсчет СКФ', " +
                 "ввести уровень креатинина в мкмоль/л, снова нажать на ту же кнопку и " +
-                "ввести вес пациента. Для получения результата нажмите '= СКФ'", "Инструкция!");
+                "ввести вес пациента. Для получения результата нажмите '= СКФ'\n" +
+                "P.S. Если до этого были расчеты, то нажать 'Сброс' и выполнить выше написанное", "Инструкция!");
     }
 
     public void howCreateQTc() {
         showMessage("Для подсчета корригированного QT вам необходимо " +
-                "сначала ввести ЧСС, потом нажать на кнопку 'Подсчет QT' и " +
-                "ввести значение QT в мсек. Для получения результата нажмите '= QTc'", "Инструкция!");
+                "в самом начале ввести ЧСС, потом нажать на кнопку 'Подсчет QT' и " +
+                "ввести значение QT в мсек. Для получения результата нажмите '= QTc'\n" +
+                "P.S. Если до этого были расчеты, то нажать 'Сброс' и выполнить выше написанное", "Инструкция!");
     }
 
     public void about() {
-        showMessage("Версия калькулятора 1.6 \nMaxim Fomin © 2020 \nВсе права защищены.", "О приложении:");
+        showMessage("Версия калькулятора 1.8 \nMaxim Fomin © 2020 \nВсе права защищены.", "О приложении:");
     }
 
     public void showMessage(String message) {

@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Build;
 import android.util.TypedValue;
 import android.widget.Button;
-
 import androidx.core.widget.TextViewCompat;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import ru.anatomica.calculator.MainActivity;
@@ -44,11 +42,9 @@ public class ArithmeticEngine {
             mainActivity.displayField.setText("0");
             calculatorEngine.changeSize();
             mainActivity.buttons.get(1).setText("Подсчет \nСКФ");
-            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) mainActivity.buttons.get(1).setAutoSizeTextTypeUniformWithConfiguration(2, 14, 1, TypedValue.COMPLEX_UNIT_SP);
-            else TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(mainActivity.buttons.get(1), 2, 18, 1, TypedValue.COMPLEX_UNIT_SP);
+            mainActivity.changeTextSize(1);
             mainActivity.buttons.get(2).setText("Подсчет \nQT");
-            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) mainActivity.buttons.get(2).setAutoSizeTextTypeUniformWithConfiguration(2, 14, 1, TypedValue.COMPLEX_UNIT_SP);
-            else TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(mainActivity.buttons.get(2), 2, 18, 1, TypedValue.COMPLEX_UNIT_SP);
+            mainActivity.changeTextSize(2);
         }
         else if (button == mainActivity.buttons.get(5)) {
             String str = mainActivity.displayField.getText().toString();
@@ -98,8 +94,7 @@ public class ArithmeticEngine {
         } else if (button == mainActivity.buttons.get(1)) {
             if (button.getText().equals("Подсчет \nСКФ")) {
                 button.setText("Введите \nкреатинин \nи нажмите");
-                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) button.setAutoSizeTextTypeUniformWithConfiguration(2, 10, 1, TypedValue.COMPLEX_UNIT_SP);
-                else TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(button, 2, 18, 1, TypedValue.COMPLEX_UNIT_SP);
+                changeTextSize(button, 10);
                 action = 'K';
                 skfEngine.age = displayValue;
                 calculatorEngine.mark = 1;
@@ -107,8 +102,7 @@ public class ArithmeticEngine {
             }
             else if (button.getText().equals("Введите \nкреатинин \nи нажмите")) {
                 button.setText("Введите \nвес");
-                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) button.setAutoSizeTextTypeUniformWithConfiguration(2, 12, 1, TypedValue.COMPLEX_UNIT_SP);
-                else TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(button, 2, 18, 1, TypedValue.COMPLEX_UNIT_SP);
+                changeTextSize(button, 12);
                 action = 'W';
                 skfEngine.kreatinin = displayValue;
                 calculatorEngine.mark = 1;
@@ -117,8 +111,7 @@ public class ArithmeticEngine {
         } else if (button == mainActivity.buttons.get(2)) {
             if (button.getText().equals("Подсчет \nQT")) {
                 button.setText("Введите \nQT в мсек");
-                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) button.setAutoSizeTextTypeUniformWithConfiguration(2, 10, 1, TypedValue.COMPLEX_UNIT_SP);
-                else TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(button, 2, 18, 1, TypedValue.COMPLEX_UNIT_SP);
+                changeTextSize(button, 12);
                 action = 'Q';
                 result = displayValue;
                 calculatorEngine.mark = 1;
@@ -184,5 +177,11 @@ public class ArithmeticEngine {
                 else mainActivity.showMessage("Вы не верно ввели данные!");
             }
         }
+    }
+
+    public void changeTextSize(Button button, int size) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) button.setTextSize(size);
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) button.setAutoSizeTextTypeUniformWithConfiguration(2, size, 1, TypedValue.COMPLEX_UNIT_SP);
+        else TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(button, 2, 14, 1, TypedValue.COMPLEX_UNIT_SP);
     }
 }

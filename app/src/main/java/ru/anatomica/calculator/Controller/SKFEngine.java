@@ -1,11 +1,6 @@
 package ru.anatomica.calculator.Controller;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
-import android.util.TypedValue;
-
-import androidx.core.widget.TextViewCompat;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import ru.anatomica.calculator.MainActivity;
@@ -71,8 +66,7 @@ public class SKFEngine {
         else aroundGFR = new BigDecimal(GFR).setScale(0, RoundingMode.HALF_EVEN);
 
         mainActivity.buttons.get(1).setText("Подсчет \nСКФ");
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) mainActivity.buttons.get(1).setAutoSizeTextTypeUniformWithConfiguration(2, 14, 1, TypedValue.COMPLEX_UNIT_SP);
-        else TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(mainActivity.buttons.get(1), 2, 18, 1, TypedValue.COMPLEX_UNIT_SP);
+        mainActivity.changeTextSize(1);
         if (from.equals("fromSKF")) mainActivity.displayField.setText("" + aroundGFR);
 
         if (GFR > 90)
@@ -119,8 +113,7 @@ public class SKFEngine {
         else aroundGFR = new BigDecimal(GFR).setScale(0, RoundingMode.HALF_EVEN);
 
         mainActivity.buttons.get(1).setText("Подсчет \nСКФ");
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) mainActivity.buttons.get(1).setAutoSizeTextTypeUniformWithConfiguration(2, 14, 1, TypedValue.COMPLEX_UNIT_SP);
-        else TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(mainActivity.buttons.get(1), 2, 18, 1, TypedValue.COMPLEX_UNIT_SP);
+        mainActivity.changeTextSize(1);
         mainActivity.displayField.setText("" + aroundGFR);
         SKF = 0;
 
